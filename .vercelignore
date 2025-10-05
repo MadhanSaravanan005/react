@@ -1,46 +1,14 @@
-# Dependencies
-node_modules
-frontend/node_modules
-
-# Development files
-*.log
-*.env.local
-*.env.development
-*.env.test
-
-# IDE files
-.vscode
-.idea
-*.swp
-*.swo
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Git
-.git
-.gitignore
-
-# Testing
-coverage
-*.test.js
-*.spec.js
-frontend/src/**/*.test.js
-frontend/src/**/*.spec.js
-
-# Documentation
-README.md
-*.md
-
-# Build artifacts (except the final build)
-frontend/build/static/js/*.map
-frontend/build/static/css/*.map
-
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Build script
+# Ignore everything that causes builds
+frontend/
+node_modules/
+package.json
+package-lock.json
+*.json
 build.sh
+.env
+.git/
+
+# Only deploy these files
+!backend/
+!index.html
+!vercel.json
