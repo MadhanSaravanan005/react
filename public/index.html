@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Record Management</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@reduxjs/toolkit@1.9.5/dist/redux-toolkit.umd.min.js"></script>
+    <script src="https://unpkg.com/react-redux@8.1.0/dist/react-redux.min.js"></script>
+    <script src="https://unpkg.com/axios@1.5.0/dist/axios.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container h2 {
+            text-align: center;
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-weight: 700;
+        }
+
+        .container h2::before {
+            content: "🎓 ";
+            font-size: 3rem;
+            margin-right: 10px;
+        }
+
+        form {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            align-items: end;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        form:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: white;
+            outline: none;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            outline: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button[type="submit"] {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-width: 120px;
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .delete-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: bold;
+            padding: 0;
+        }
+
+        .delete-btn:hover {
+            background: linear-gradient(135deg, #ff5252 0%, #d32f2f 100%);
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .table-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+            font-size: 1rem;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        thead th {
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: none;
+        }
+
+        tbody tr {
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #e1e5e9;
+        }
+
+        tbody tr:hover {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            transform: translateY(-1px);
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        tbody td {
+            padding: 1rem;
+            border: none;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #7f8c8d;
+        }
+
+        .empty-state::before {
+            content: "📚";
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .container h2 {
+                font-size: 2rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            form {
+                grid-template-columns: 1fr;
+                padding: 1.5rem;
+            }
+            
+            .table-container {
+                padding: 1rem;
+            }
+            
+            table {
+                font-size: 0.9rem;
+            }
+            
+            thead th,
+            tbody td {
+                padding: 0.75rem 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { configureStore, createSlice, createAsyncThunk } = RTK;
+        const { Provider, useDispatch, useSelector } = ReactRedux;
+
+        // API URL
+        const API_URL = "/api/students";
+
+        // Redux setup
+        const fetchStudents = createAsyncThunk("students/fetch", async () => {
+            const res = await axios.get(API_URL);
+            return res.data;
+        });
+
+        const addStudent = createAsyncThunk("students/add", async (student) => {
+            const res = await axios.post(API_URL, student);
+            return res.data;
+        });
+
+        const deleteStudent = createAsyncThunk("students/delete", async (id) => {
+            await axios.delete(`${API_URL}/${id}`);
+            return id;
+        });
+
+        const studentSlice = createSlice({
+            name: "students",
+            initialState: { list: [] },
+            extraReducers: (builder) => {
+                builder
+                    .addCase(fetchStudents.fulfilled, (state, action) => {
+                        state.list = action.payload;
+                    })
+                    .addCase(addStudent.fulfilled, (state, action) => {
+                        state.list.push(action.payload);
+                    })
+                    .addCase(deleteStudent.fulfilled, (state, action) => {
+                        state.list = state.list.filter((s) => s._id !== action.payload);
+                    });
+            }
+        });
+
+        const store = configureStore({
+            reducer: { students: studentSlice.reducer }
+        });
+
+        // Main App Component
+        function App() {
+            const dispatch = useDispatch();
+            const students = useSelector((state) => state.students.list);
+            const [form, setForm] = useState({ name: "", regNo: "", department: "", year: "" });
+
+            useEffect(() => {
+                dispatch(fetchStudents());
+            }, [dispatch]);
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                dispatch(addStudent(form));
+                setForm({ name: "", regNo: "", department: "", year: "" });
+            };
+
+            return React.createElement('div', { className: 'container' }, [
+                React.createElement('h2', { key: 'title' }, 'Student Record Management'),
+                
+                React.createElement('form', { 
+                    key: 'form',
+                    onSubmit: handleSubmit 
+                }, [
+                    React.createElement('input', {
+                        key: 'name',
+                        type: 'text',
+                        placeholder: 'Full Name',
+                        value: form.name,
+                        onChange: (e) => setForm({ ...form, name: e.target.value }),
+                        required: true
+                    }),
+                    React.createElement('input', {
+                        key: 'regNo',
+                        type: 'text',
+                        placeholder: 'Registration Number',
+                        value: form.regNo,
+                        onChange: (e) => setForm({ ...form, regNo: e.target.value }),
+                        required: true
+                    }),
+                    React.createElement('input', {
+                        key: 'department',
+                        type: 'text',
+                        placeholder: 'Department',
+                        value: form.department,
+                        onChange: (e) => setForm({ ...form, department: e.target.value }),
+                        required: true
+                    }),
+                    React.createElement('input', {
+                        key: 'year',
+                        type: 'number',
+                        placeholder: 'Year',
+                        min: '1',
+                        max: '4',
+                        value: form.year,
+                        onChange: (e) => setForm({ ...form, year: e.target.value }),
+                        required: true
+                    }),
+                    React.createElement('button', {
+                        key: 'submit',
+                        type: 'submit'
+                    }, 'Add Student')
+                ]),
+
+                React.createElement('div', { 
+                    key: 'table-container',
+                    className: 'table-container' 
+                }, 
+                    students.length === 0 ? 
+                        React.createElement('div', { className: 'empty-state' }, 
+                            React.createElement('p', null, 'No students found. Add your first student above!')
+                        ) :
+                        React.createElement('table', null, [
+                            React.createElement('thead', { key: 'thead' },
+                                React.createElement('tr', null, [
+                                    React.createElement('th', { key: 'name' }, 'Name'),
+                                    React.createElement('th', { key: 'regNo' }, 'Registration No'),
+                                    React.createElement('th', { key: 'dept' }, 'Department'),
+                                    React.createElement('th', { key: 'year' }, 'Year'),
+                                    React.createElement('th', { key: 'action' }, 'Action')
+                                ])
+                            ),
+                            React.createElement('tbody', { key: 'tbody' },
+                                students.map((student) => 
+                                    React.createElement('tr', { key: student._id }, [
+                                        React.createElement('td', { key: 'name' }, student.name),
+                                        React.createElement('td', { key: 'regNo' }, student.regNo),
+                                        React.createElement('td', { key: 'dept' }, student.department),
+                                        React.createElement('td', { key: 'year' }, student.year),
+                                        React.createElement('td', { key: 'action' },
+                                            React.createElement('button', {
+                                                className: 'delete-btn',
+                                                onClick: () => dispatch(deleteStudent(student._id)),
+                                                title: 'Delete Student'
+                                            }, '×')
+                                        )
+                                    ])
+                                )
+                            )
+                        ])
+                )
+            ]);
+        }
+
+        // Root component with Provider
+        function Root() {
+            return React.createElement(Provider, { store },
+                React.createElement(App)
+            );
+        }
+
+        // Render the app
+        ReactDOM.render(React.createElement(Root), document.getElementById('root'));
+    </script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</body>
+</html>

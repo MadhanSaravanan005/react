@@ -4,20 +4,20 @@
     {
       "src": "backend/server.js",
       "use": "@vercel/node"
-    },
-    {
-      "src": "frontend/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "build",
-        "buildCommand": "npm ci --only=production --silent && npm run build"
-      }
     }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "/backend/server.js" },
-    { "src": "/static/(.*)", "dest": "/frontend/build/static/$1" },
-    { "src": "/(.*\\.(js|css|ico|png|jpg|jpeg|gif|svg))", "dest": "/frontend/build/$1" },
-    { "src": "/(.*)", "dest": "/frontend/build/index.html" }
+    {
+      "src": "/api/(.*)",
+      "dest": "/backend/server.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/public/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/public/index.html"
+    }
   ]
 }
