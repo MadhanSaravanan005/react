@@ -236,8 +236,8 @@
         const { configureStore, createSlice, createAsyncThunk } = RTK;
         const { Provider, useDispatch, useSelector } = ReactRedux;
 
-        // API URL
-        const API_URL = "/api/students";
+        // API URL - will use Railway deployment URL
+        const API_URL = window.location.origin + "/api/students";
 
         // Redux setup
         const fetchStudents = createAsyncThunk("students/fetch", async () => {
