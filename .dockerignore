@@ -1,6 +1,4 @@
 node_modules
-frontend/node_modules
-frontend/build
 .git
 .gitignore
 README.md
@@ -8,3 +6,8 @@ README.md
 docs
 .vercelignore
 vercel.json
+.env
+frontend/build
+frontend/node_modules
+*.log
+.DS_Store

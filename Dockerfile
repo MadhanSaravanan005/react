@@ -1,28 +1,30 @@
+# Multi-stage build for React app
+FROM node:18-alpine as frontend-build
+
+WORKDIR /app/frontend
+COPY frontend/package*.json ./
+RUN npm ci --only=production --silent
+COPY frontend/ ./
+RUN npm run build
+
+# Production stage
 FROM node:18-alpine
 
 WORKDIR /app
 
-# Copy package files
+# Copy and install backend dependencies
 COPY package*.json ./
+RUN npm ci --only=production --silent
 
-# Install root dependencies
-RUN npm install --only=production
-
-# Copy and build frontend
-COPY frontend/package*.json ./frontend/
-RUN cd frontend && npm install
-COPY frontend/ ./frontend/
-RUN cd frontend && npm run build
-
-# Copy backend files
+# Copy backend source
 COPY backend/ ./backend/
-COPY public/ ./public/
 
-# Copy the built React app to public
-RUN cp -r frontend/build/* public/
+# Copy the built frontend from the previous stage
+COPY --from=frontend-build /app/frontend/build ./public
 
-# Expose port
+# Create .env file in production
+RUN echo "NODE_ENV=production" > .env
+
 EXPOSE 5000
 
-# Start the application
 CMD ["node", "backend/server.js"]
