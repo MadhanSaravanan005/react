@@ -11,11 +11,12 @@ Thumbs.db
 
 # Root node_modules (not needed)
 /node_modules/
+frontend/node_modules/
 
-# Don't ignore these - needed for build
-# !frontend/
-# !backend/
-# !vercel.json
-
-# Build artifacts
+# Build artifacts that we don't need
 frontend/build/static/**/*.map
+
+# Don't ignore these - needed for deployment
+!public/
+!backend/
+!vercel.json
