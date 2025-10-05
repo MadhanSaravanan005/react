@@ -1,14 +1,21 @@
-# Ignore everything that causes builds
-frontend/
-node_modules/
-package.json
-package-lock.json
-*.json
-build.sh
-.env
+# Development files
+.env.local
+.env.development
+.env.test
+*.log
 .git/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
 
-# Only deploy these files
-!backend/
-!index.html
-!vercel.json
+# Root node_modules (not needed)
+/node_modules/
+
+# Don't ignore these - needed for build
+# !frontend/
+# !backend/
+# !vercel.json
+
+# Build artifacts
+frontend/build/static/**/*.map
