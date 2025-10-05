@@ -4,70 +4,76 @@
   margin: 0 auto;
   padding: 20px;
   min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* Header */
 .container h2 {
   text-align: center;
   color: white;
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-  font-weight: 600;
+  font-size: 2.8rem;
+  margin-bottom: 2.5rem;
+  font-weight: 700;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  letter-spacing: 1px;
 }
 
 .container h2::before {
   content: "🎓 ";
-  margin-right: 10px;
+  margin-right: 15px;
+  font-size: 3rem;
 }
 
 /* Form Styling */
 form {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  padding: 2rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
   align-items: end;
+  transform: translateY(0);
+  transition: all 0.3s ease;
 }
 
 form:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
 }
 
 /* Input Styling */
 input[type="text"],
 input[type="number"] {
   width: 100%;
-  padding: 12px 16px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-  font-size: 1rem;
+  padding: 15px 20px;
+  border: 2px solid #e1e8ed;
+  border-radius: 12px;
+  font-size: 1.1rem;
   font-family: inherit;
   transition: all 0.3s ease;
-  background: rgba(255, 255, 255, 0.9);
+  background: #f8fafc;
   outline: none;
-  color: #2c3e50;
+  color: #2d3748;
+  font-weight: 500;
 }
 
 input[type="text"]:focus,
 input[type="number"]:focus {
   border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
-  transform: translateY(-1px);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  transform: translateY(-2px);
 }
 
 /* Button Styling */
 button {
-  padding: 12px 24px;
   border: none;
-  border-radius: 10px;
-  font-size: 1rem;
+  border-radius: 12px;
+  font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -78,53 +84,67 @@ button {
 button[type="submit"] {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  min-width: 120px;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  padding: 15px 30px;
+  min-width: 140px;
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 button[type="submit"]:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 25px rgba(102, 126, 234, 0.5);
+}
+
+button[type="submit"]:active {
+  transform: translateY(-1px) scale(1.01);
 }
 
 /* Delete Button */
 button:not([type="submit"]) {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+  background: linear-gradient(135deg, #ff4757 0%, #ff3838 100%);
   color: white;
-  width: 35px;
-  height: 35px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
   padding: 0;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  box-shadow: 0 6px 15px rgba(255, 71, 87, 0.4);
 }
 
 button:not([type="submit"]):hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+  transform: scale(1.15) rotate(90deg);
+  box-shadow: 0 8px 20px rgba(255, 71, 87, 0.6);
 }
 
 /* Table Container */
 .table-container {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  padding: 1.5rem;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  transform: translateY(0);
+  transition: all 0.3s ease;
+}
+
+.table-container:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
 }
 
 /* Table Styling */
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 1rem;
-  border-radius: 10px;
+  font-size: 1.1rem;
+  border-radius: 15px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.9);
+  background: white;
 }
 
 thead {
@@ -133,41 +153,63 @@ thead {
 
 thead th {
   color: white;
-  padding: 1rem;
+  padding: 1.5rem 1.2rem;
   text-align: left;
-  font-weight: 600;
+  font-weight: 700;
   border: none;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.9rem;
 }
 
 tbody tr {
   transition: all 0.3s ease;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #e2e8f0;
 }
 
 tbody tr:hover {
-  background: rgba(102, 126, 234, 0.1);
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+  transform: translateX(5px);
+}
+
+tbody tr:last-child {
+  border-bottom: none;
 }
 
 tbody td {
-  padding: 1rem;
+  padding: 1.2rem;
   border: none;
-  color: #2c3e50;
+  color: #2d3748;
+  font-weight: 500;
 }
 
 /* Empty State */
 .empty-state {
   text-align: center;
-  padding: 3rem;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 1.1rem;
+  padding: 4rem;
+  color: white;
+  font-size: 1.3rem;
+  font-weight: 500;
 }
 
 .empty-state::before {
   content: "📚";
-  font-size: 3rem;
+  font-size: 4rem;
   display: block;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
 }
 
 /* Responsive Design */
@@ -177,31 +219,59 @@ tbody td {
   }
   
   .container h2 {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
+    font-size: 2.2rem;
+    margin-bottom: 2rem;
   }
   
   form {
     grid-template-columns: 1fr;
-    padding: 1.5rem;
+    padding: 2rem;
+    gap: 1.2rem;
   }
   
   .table-container {
-    padding: 1rem;
+    padding: 1.5rem;
   }
   
   table {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
   
   thead th,
   tbody td {
-    padding: 0.75rem 0.5rem;
+    padding: 1rem 0.8rem;
   }
   
   button:not([type="submit"]) {
-    width: 30px;
-    height: 30px;
-    font-size: 0.9rem;
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container h2 {
+    font-size: 1.8rem;
+  }
+  
+  .container h2::before {
+    font-size: 2.2rem;
+    margin-right: 8px;
+  }
+  
+  form {
+    padding: 1.5rem;
+  }
+  
+  input[type="text"],
+  input[type="number"] {
+    padding: 12px 16px;
+    font-size: 1rem;
+  }
+  
+  button[type="submit"] {
+    padding: 12px 24px;
+    font-size: 1rem;
+    min-width: 120px;
   }
 }
